@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+  <link href="/output.css" rel="stylesheet">
+  <title>Any Chat - Enter chat</title>
+</head>
+
+<body style="background: #edf2f7;">
+  <div class="p-4"><img src="/icons/logo.svg" /></div>
+  <div class="flex h-screen">
+    <div class="m-auto p-6 bg-white rounded-lg shadow">
+      <div>
+        <h1 class="font-bold text-xl text-center">Please enter your nickname and join chat</h1>
+        <div class="my-4">
+          <p class="font-bold text-sm">Nickname</p>
+          <input id="nickname" placeholder="Enter your nickname"
+            class="text-sm p-2 text-gray w-full shadow bg-gray-50 rounded-lg" type="text" />
+          <div id="disabled-button" class="w-full mt-8">
+            <span class="block w-full p-2 bg-gray-400 text-center text-sm text-white rounded-lg">Join Chat</span>
+          </div>
+          <div id="enabled-button" class="w-full hidden mt-8">
+            <a href="/chat"><span
+                class="block w-full p-2 bg-blue-700 hover:bg-blue-400 text-center text-sm text-white rounded-lg">Join
+                Chat</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="/enter.js"></script>
+
+</body>
+
+</html>
