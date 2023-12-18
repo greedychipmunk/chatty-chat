@@ -12,10 +12,20 @@
 
 <body style="background: #edf2f7;">
   <div class="p-4"><img src="/icons/logo.svg" /></div>
-  <h1 class="font-bold text-xl text-center">Chat placeholder</h1>
+  <div>
+    <div id="users"></div>
+    <div>
+      <div id="messages"></div>
+      <div id="form">
+        <textarea class="input"></textarea>
+        <span class="send-btn bg-blue-700 hover:bg-blue-400 text-white py-2 px-6 rounded-lg">Send</span>
+      </div>
+    </div>
+  </div>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="/chat.js"></script>
 </body>
 
 </html>
