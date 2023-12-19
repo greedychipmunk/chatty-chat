@@ -32,9 +32,6 @@ $(document).ready(function () {
   var sendBtn = $("#form .send-btn");
   var input = $("#form .input");
 
-  var connectedUsers = [];
-  var chatMessage = [];
-
   var { nickname } = getParams();
 
   sendBtn.on("click", function (e) {
@@ -43,5 +40,9 @@ $(document).ready(function () {
       socket.emit("chat message", { user: nickname, msg: input.val() });
       input.val("");
     }
+  });
+
+  $.get("/connectedUsers", function ({ connectedUsers }) {
+    $("#users-online").text(connectedUsers.length);
   });
 });
