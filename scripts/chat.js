@@ -29,10 +29,43 @@ function getParams() {
 $(document).ready(function () {
   var socket = io();
 
-  var sendBtn = $("#form .send-btn");
-  var input = $("#form .input");
+  var sendBtn = $("#form #send-btn");
+  var input = $("#form #input");
 
   var { nickname } = getParams();
+
+  var chatMessages = [
+    { user: "Jamal", msg: "Hello world" },
+    { user: "Gavin", msg: "Yooooooo!!!" },
+    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
+    { user: "Jamal", msg: "Hello world" },
+    { user: "Gavin", msg: "Yooooooo!!!" },
+    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
+    { user: "Jamal", msg: "Hello world" },
+    { user: "Gavin", msg: "Yooooooo!!!" },
+    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
+    { user: "Jamal", msg: "Hello world" },
+    { user: "Gavin", msg: "Yooooooo!!!" },
+    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
+    { user: "Jamal", msg: "Hello world" },
+    { user: "Gavin", msg: "Yooooooo!!!" },
+    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
+    { user: "Jamal", msg: "Hello world" },
+    { user: "Gavin", msg: "Yooooooo!!!" },
+    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
+    { user: "Jamal", msg: "Hello world" },
+    { user: "Gavin", msg: "Yooooooo!!!" },
+    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
+    { user: "Jamal", msg: "Hello world" },
+    { user: "Gavin", msg: "Yooooooo!!!" },
+    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
+    { user: "Jamal", msg: "Hello world" },
+    { user: "Gavin", msg: "Yooooooo!!!" },
+    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
+    { user: "Jamal", msg: "Hello world" },
+    { user: "Gavin", msg: "Yooooooo!!!" },
+    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
+  ];
 
   sendBtn.on("click", function (e) {
     e.preventDefault();
@@ -44,5 +77,25 @@ $(document).ready(function () {
 
   $.get("/connectedUsers", function ({ connectedUsers }) {
     $("#users-online").text(connectedUsers.length);
+  });
+
+  chatMessages.map(({ user, msg }) => {
+    if ("Gavin" == user) {
+      $(
+        "<div class='w-full flex justify-end'><div class='m-3 p-1 w-3/6'><div class='text-black text-right'>" +
+          user +
+          "</div><div class='bg-blue-700 p-5 text-white rounded-lg'>" +
+          msg +
+          "</div></div><div>"
+      ).appendTo("#messages");
+    } else {
+      $(
+        "<div class='w-full'><div class='m-3 p-1 w-3/6'><div class='text-black'>" +
+          user +
+          "</div><div class='bg-gray-500 p-5 text-white rounded-lg'>" +
+          msg +
+          "</div></div></div>"
+      ).appendTo("#messages");
+    }
   });
 });
