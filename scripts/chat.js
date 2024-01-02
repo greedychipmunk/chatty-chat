@@ -34,44 +34,11 @@ $(document).ready(function () {
 
   var { nickname } = getParams();
 
-  var chatMessages = [
-    { user: "Jamal", msg: "Hello world" },
-    { user: "Gavin", msg: "Yooooooo!!!" },
-    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
-    { user: "Jamal", msg: "Hello world" },
-    { user: "Gavin", msg: "Yooooooo!!!" },
-    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
-    { user: "Jamal", msg: "Hello world" },
-    { user: "Gavin", msg: "Yooooooo!!!" },
-    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
-    { user: "Jamal", msg: "Hello world" },
-    { user: "Gavin", msg: "Yooooooo!!!" },
-    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
-    { user: "Jamal", msg: "Hello world" },
-    { user: "Gavin", msg: "Yooooooo!!!" },
-    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
-    { user: "Jamal", msg: "Hello world" },
-    { user: "Gavin", msg: "Yooooooo!!!" },
-    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
-    { user: "Jamal", msg: "Hello world" },
-    { user: "Gavin", msg: "Yooooooo!!!" },
-    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
-    { user: "Jamal", msg: "Hello world" },
-    { user: "Gavin", msg: "Yooooooo!!!" },
-    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
-    { user: "Jamal", msg: "Hello world" },
-    { user: "Gavin", msg: "Yooooooo!!!" },
-    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
-    { user: "Jamal", msg: "Hello world" },
-    { user: "Gavin", msg: "Yooooooo!!!" },
-    { user: "Vega", msg: "Heeeeeeeeeyyyyyyyyy!!!" },
-  ];
-
-  sendBtn.on("click", function (e) {
-    e.preventDefault();
-    if (input.val()) {
-      socket.emit("chat message", { user: nickname, msg: input.val() });
-      input.val("");
+  input.on("keyup", function () {
+    if (input.val().length != 0 && input.val().length <= 1000) {
+      enableSendBtn();
+    } else {
+      disableSendBtn();
     }
   });
 
@@ -79,12 +46,33 @@ $(document).ready(function () {
     $("#users-online").text(connectedUsers.length);
   });
 
-  chatMessages.map(({ user, msg }) => {
+  function enableSendBtn() {
+    sendBtn.on("click", function (e) {
+      e.preventDefault();
+      if (input.val()) {
+        socket.emit("chat message", { user: nickname, msg: input.val() });
+        input.val("");
+        disableSendBtn();
+      }
+    });
+    sendBtn.removeClass("bg-gray-400");
+    sendBtn.addClass("bg-blue-400");
+  }
+
+  function disableSendBtn() {
+    sendBtn.on("click", function () {});
+    sendBtn.addClass("bg-gray-400");
+    sendBtn.removeClass("bg-blue-400");
+  }
+
+  function appendMessage({ user, msg, timestamp }) {
     if ("Gavin" == user) {
       $(
         "<div class='w-full flex justify-end'><div class='m-3 p-1 w-3/6'><div class='text-black text-right'>" +
           user +
-          "</div><div class='bg-blue-700 p-5 text-white rounded-lg'>" +
+          " " +
+          new Date(timestamp).toLocaleTimeString() +
+          "</div><div class='bg-blue-700 p-5 text-white rounded-full rounded-br-none'>" +
           msg +
           "</div></div><div>"
       ).appendTo("#messages");
@@ -92,10 +80,27 @@ $(document).ready(function () {
       $(
         "<div class='w-full'><div class='m-3 p-1 w-3/6'><div class='text-black'>" +
           user +
-          "</div><div class='bg-gray-500 p-5 text-white rounded-lg'>" +
+          " " +
+          new Date(timestamp).toLocaleTimeString() +
+          "</div><div class='bg-gray-500 p-5 text-white rounded-full rounded-bl-none'>" +
           msg +
           "</div></div></div>"
       ).appendTo("#messages");
     }
+    // $("#messages").scrollTop($("#messages").height());
+  }
+
+  socket.on("new message", ({ user, msg, timestamp }) => {
+    console.log("new message: " + user + ": " + msg);
+    appendMessage({ user, msg, timestamp });
   });
+
+  function updateMessages() {
+    $.get("/chatMessages", function ({ chatMessages }) {
+      chatMessages.map(({ user, msg, timestamp }) => {
+        appendMessage({ user, msg, timestamp });
+      });
+    });
+  }
+  updateMessages();
 });
