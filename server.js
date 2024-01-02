@@ -54,7 +54,9 @@ io.on("connection", (socket) => {
 
   socket.on("chat message", ({ user, msg }) => {
     console.log("chat message: " + user + ": " + msg);
-    chatMessages.push({ user, msg });
+    const timestamp = Date.now();
+    chatMessages.push({ user, msg, timestamp });
+    socket.emit("new message", { user, msg, timestamp });
   });
 });
 
